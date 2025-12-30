@@ -44,8 +44,6 @@ const WeatherCard: React.FC<Props> = ({ data, onPress }) => {
   return (
     <Pressable onPress={onPress}>
       <View style={styles.card}>
-
-        {/* 🔹 Top Row */}
         <View style={styles.topRow}>
           <Text style={styles.city}>{data.city}</Text>
 
@@ -64,15 +62,12 @@ const WeatherCard: React.FC<Props> = ({ data, onPress }) => {
           </View>
         </View>
 
-        {/* 🔹 Temperature */}
         <Text style={styles.temp}>
           {convertTemperature(
             data.temperature?.today_high,
             unit
           )}°{unit}
         </Text>
-
-        {/* 🔹 Other Info */}
         <View style={styles.row}>
           <Image
             source={require('../../assets/icons/humid.png')}
