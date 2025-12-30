@@ -4,6 +4,7 @@ import styles from './Login.styles';
 import GenericTextInput from '../../components/TextInput/TextInput';
 import GenericButton from '../../components/Button/Button';
 
+import {CommonData} from "./../../../Constants"
 import auth from '@react-native-firebase/auth';
 import {
   GoogleSignin,
@@ -29,8 +30,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:
-        '54090856034-2mch4qta1oakksihfbgt4c66m7r77nkt.apps.googleusercontent.com',
+      webClientId: CommonData.GOOGLE_CLIENT_ID
     });
   }, []);
   const validateEmail = (value: string) => {

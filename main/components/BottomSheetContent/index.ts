@@ -1,5 +1,6 @@
 import { CardType } from "../../screens/WeatherDetail/WeatherDetail";
 import FeelsLike from "./FeelsLike/FeelsLike";
+import Humidity from "./Humidity/Humidity";
 import Precipitation from "./Precipitation/Precipitation";
 import UVIndex from "./UVIndex/UVIndex";
 export const bottomSheetComponentMap: Record<
@@ -12,6 +13,6 @@ export const bottomSheetComponentMap: Record<
   SUNSET: FeelsLike,
   PRECIPITATION: Precipitation,
   VISIBILITY: FeelsLike,
-  HUMIDITY: FeelsLike,
+  HUMIDITY: Humidity,
   PRESSURE: FeelsLike,
 };
