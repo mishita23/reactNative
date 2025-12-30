@@ -11,7 +11,6 @@ export type RootStackParamList = {
   Weather: undefined;
   WeatherDetails: {
     weather: WeatherData;
-    unit: 'C' | 'F';
   };
 };
 

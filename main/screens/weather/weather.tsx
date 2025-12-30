@@ -16,7 +16,6 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Weather'>;
 
 const WeatherScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
-  const [unit, setUnit] = useState<TemperatureUnit>('C');
   const [weatherData, setWeatherData] = useState<WeatherData[]>();
     const { user } = useAuth();
   const fetchWeather = async () => {
@@ -30,7 +29,6 @@ const WeatherScreen: React.FC = () => {
   useEffect(() => {
     fetchWeather();
   }, []);
-  const isFahrenheit = unit === 'F';
   return (
     <LinearGradient
           colors={['#1186c1ff', '#72b9d9ff', '#F5FBFF']}
@@ -41,18 +39,7 @@ const WeatherScreen: React.FC = () => {
   
       <View style={styles.headerRow}>
         <Text style={styles.title}>Hey, {user?.firstName}</Text>
-        <View style={styles.switchRow}>
-          <Text style={styles.switchLabel}>°C</Text>
-
-          <Switch
-            value={isFahrenheit}
-            onValueChange={value => setUnit(value ? 'F' : 'C')}
-            trackColor={{ false: '#ccc', true: '#FFA500' }}
-            thumbColor="#fff"
-          />
-
-          <Text style={styles.switchLabel}>°F</Text>
-        </View>
+  
       </View>
       <FlatList
         data={weatherData}
@@ -60,11 +47,9 @@ const WeatherScreen: React.FC = () => {
         renderItem={({ item }) => (
           <WeatherCard
             data={item}
-            unit={unit}
             onPress={() =>
               navigation.navigate('WeatherDetails', {
                 weather: item,
-                unit,
               })
             }
           />

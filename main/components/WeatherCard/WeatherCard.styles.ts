@@ -37,11 +37,24 @@ export default StyleSheet.create({
     fontSize: 14,
     color: '#dadcddff',
   },
-  weatherIcon: {
-    width: 32,
-    height: 32,
-    resizeMode: 'contain',
-  },
+topRow: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+},
+
+rightSection: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 6,
+},
+
+weatherIcon: {
+  width: 40,
+  height: 40,
+  resizeMode: 'contain',
+},
+
   smallIcon: {
     width: 16,
     height: 16,
