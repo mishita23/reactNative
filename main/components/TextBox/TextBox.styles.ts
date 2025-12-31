@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     marginVertical: 20,
-    marginTop :10
+    marginTop: 10,
   },
   label: {
     color: '#FFFFFF',

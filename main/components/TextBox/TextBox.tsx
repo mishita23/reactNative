@@ -1,11 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import styles from './TextBox.styles';
+import { TextBoxProps } from './Types';
 
-interface TextBoxProps {
-  title?: string;
-  data?: string;
-}
+
 
 const TextBox: React.FC<TextBoxProps> = ({ title, data }) => {
   return (

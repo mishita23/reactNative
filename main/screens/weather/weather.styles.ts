@@ -11,7 +11,7 @@ export default StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
     marginVertical: 16,
-    color : "#fff"
+    color: '#fff',
   },
   listContent: {
     paddingBottom: 16,
@@ -35,13 +35,13 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   switchRow: {
-  flexDirection: 'row',
-  alignItems: 'center',
-},
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 
-switchLabel: {
-  fontSize: 14,
-  fontWeight: '500',
-  marginHorizontal: 4,
-},
+  switchLabel: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginHorizontal: 4,
+  },
 });

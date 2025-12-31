@@ -4,7 +4,7 @@ import styles from './Login.styles';
 import GenericTextInput from '../../components/TextInput/TextInput';
 import GenericButton from '../../components/Button/Button';
 
-import {CommonData} from "./../../../Constants"
+import { CommonData } from './../../../Constants';
 import auth from '@react-native-firebase/auth';
 import {
   GoogleSignin,
@@ -15,6 +15,7 @@ import { RootStackParamList } from '../../AppNavigator';
 import LinearGradient from 'react-native-linear-gradient';
 import { fetcher } from '../../api/fetcher';
 import { useAuth } from '../../context/AuthContext';
+import { RenderInputParams } from './Types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -30,9 +31,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId: CommonData.GOOGLE_CLIENT_ID
+      webClientId: CommonData.GOOGLE_CLIENT_ID,
     });
   }, []);
+
   const validateEmail = (value: string) => {
     if (!value) return 'Email is required';
     if (!/\S+@\S+\.\S+/.test(value)) return 'Invalid email';
@@ -43,51 +45,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     if (!value) return 'Password is required';
     if (value.length < 6) return 'Password must be at least 6 characters';
     return '';
-  };
-  const handleGoogleSignIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
-
-      await GoogleSignin.signOut();
-
-      await GoogleSignin.signIn();
-
-      const { idToken } = await GoogleSignin.getTokens();
-
-      if (!idToken) {
-        throw new Error('Google ID token not found');
-      }
-
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-
-      const userCredential = await auth().signInWithCredential(
-        googleCredential,
-      );
-         const firebaseUser = userCredential.user;
-             const userData = {
-      id: Number(firebaseUser.uid),
-      username: firebaseUser.displayName || 'Google User',
-      email: firebaseUser.email || '',
-      firstName: firebaseUser.displayName?.split(' ')[0] || '',
-      lastName:
-        firebaseUser.displayName?.split(' ').slice(1).join(' ') || '',
-      token: await firebaseUser.getIdToken(), 
-    };
-        login(userData);
-
-
-      navigation.replace('Weather');
-    } catch (error: any) {
-      console.log('Google Sign-In Error Full:', error);
-
-      Alert.alert(
-        'Google Sign-In Error',
-        `Code: ${error?.code}\nMessage: ${error?.message}`,
-      );
-    }
   };
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -109,6 +66,55 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     }));
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+
+      await GoogleSignin.signOut();
+
+      await GoogleSignin.signIn();
+
+      const { idToken } = await GoogleSignin.getTokens();
+
+      if (!idToken) {
+        throw new Error('Google ID token not found');
+      }
+
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      const userCredential = await auth().signInWithCredential(
+        googleCredential,
+      );
+      const firebaseUser = userCredential.user;
+
+      const { uid, displayName, email, getIdToken } = firebaseUser;
+
+      const [firstName = '', ...lastNameParts] = displayName?.split(' ') || [];
+
+      const userData = {
+        id: Number(uid),
+        username: displayName || 'Google User',
+        email: email || '',
+        firstName,
+        lastName: lastNameParts.join(' '),
+        token: await getIdToken(),
+      };
+
+      login(userData);
+
+      navigation.navigate('Weather');
+    } catch (error: any) {
+      console.log('Google Sign-In Error Full:', error);
+
+      Alert.alert(
+        'Google Sign-In Error',
+        `Code: ${error?.code}\nMessage: ${error?.message}`,
+      );
+    }
+  };
+
   const handleLogin = async () => {
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
@@ -128,20 +134,78 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         url: 'https://dummyjson.com/auth/login',
         method: 'POST',
         body: {
-          username: "emilys",
-          password: "emilyspass",
+          username: 'emilys',
+          password: 'emilyspass',
         },
       });
-
       login(response);
-
-      navigation.replace('Weather');
+      navigation.navigate('Weather');
     } catch (error: any) {
       Alert.alert('Login Failed', error.message);
     } finally {
       setLoading(false);
     }
   };
+
+  // render functions
+  const renderTitle = () => <Text style={styles.title}>LOGIN</Text>;
+
+  const renderInput = ({
+    label,
+    placeholder,
+    value,
+    onChange,
+    error,
+    secureText,
+    onToggleSecure,
+  }: RenderInputParams) => (
+    <GenericTextInput
+      label={label}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      error={error}
+      secureText={secureText}
+      onToggleSecure={onToggleSecure}
+    />
+  );
+
+  const renderLoginButton = () => (
+    <GenericButton
+      title="Click to login"
+      onPress={handleLogin}
+      disabled={!email || !password}
+      loading={loading}
+      style={styles.authButton}
+    />
+  );
+
+  const renderDivider = () => (
+    <View style={styles.orContainer}>
+      <View style={styles.line} />
+      <Text style={styles.orText}>OR</Text>
+      <View style={styles.line} />
+    </View>
+  );
+
+  const renderGoogleSignIn = () => (
+    <View style={styles.googleButtonWrapper}>
+      <GoogleSigninButton
+        size={GoogleSigninButton.Size.Standard}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={handleGoogleSignIn}
+        style={styles.googleButton}
+      />
+    </View>
+  );
+
+  const renderAuthActions = () => (
+    <View style={styles.signIn}>
+      {renderLoginButton()}
+      {renderDivider()}
+      {renderGoogleSignIn()}
+    </View>
+  );
 
   return (
     <LinearGradient
@@ -150,47 +214,26 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       end={{ x: 0, y: 1 }}
       style={styles.container}
     >
-      <Text style={styles.title}>LOGIN </Text>
-      <GenericTextInput
-        placeholder="Enter Email"
-        label="Email"
-        value={email}
-        onChange={handleEmailChange}
-        error={errors.email}
-      />
-      <GenericTextInput
-        placeholder="Enter password"
-        label="Password"
-        value={password}
-        secureText={secure}
-        onToggleSecure={() => setSecure(prev => !prev)}
-        onChange={handlePasswordChange}
-        error={errors.password}
-      />
-      <View style={styles.signIn}>
-        <GenericButton
-          title="Click to login"
-          onPress={handleLogin}
-          disabled={!email || !password}
-          loading={loading}
-          style={styles.authButton}
-        />
+      {renderTitle()}
+      {renderInput({
+        label: 'Email',
+        placeholder: 'Enter Email',
+        value: email,
+        onChange: handleEmailChange,
+        error: errors.email,
+      })}
 
-        <View style={styles.orContainer}>
-          <View style={styles.line} />
-          <Text style={styles.orText}>OR</Text>
-          <View style={styles.line} />
-        </View>
+      {renderInput({
+        label: 'Password',
+        placeholder: 'Enter password',
+        value: password,
+        onChange: handlePasswordChange,
+        error: errors.password,
+        secureText: secure,
+        onToggleSecure: () => setSecure(prev => !prev),
+      })}
 
-        <View style={styles.googleButtonWrapper}>
-          <GoogleSigninButton
-            size={GoogleSigninButton.Size.Standard}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={handleGoogleSignIn}
-            style={styles.googleButton}
-          />
-        </View>
-      </View>
+      {renderAuthActions()}
     </LinearGradient>
   );
 };

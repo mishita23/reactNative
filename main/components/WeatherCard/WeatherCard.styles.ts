@@ -54,7 +54,6 @@ weatherIcon: {
   height: 40,
   resizeMode: 'contain',
 },
-
   smallIcon: {
     width: 16,
     height: 16,

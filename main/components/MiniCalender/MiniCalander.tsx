@@ -6,8 +6,9 @@ import {
   Pressable,
 } from 'react-native';
 import styles from './MiniCalander.styles';
+import { Days } from '../../assets/DataConstants';
 
-const DAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const DAYS = Days
 
 const generateDates = () => {
   const today = new Date();

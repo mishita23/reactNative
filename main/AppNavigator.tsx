@@ -4,7 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/login/Login';
 import WeatherScreen from './screens/weather/weather';
 import WeatherDetailsScreen from './screens/WeatherDetail/WeatherDetail';
-import { WeatherData } from './components/WeatherCard/WeatherCard';
+import { WeatherData } from './components/WeatherCard/Types';
+
 
 export type RootStackParamList = {
   Login: undefined;

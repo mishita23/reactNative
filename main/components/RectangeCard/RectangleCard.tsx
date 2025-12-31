@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, LayoutChangeEvent } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './RectangeCard.styles';
+import { RectangleCardProps } from './Types';
 
-interface Props {
-  value: number;
-  description: string;
-  showBar?: boolean;
-}
+
 
 const MAX_VALUE = 500;
 
-const RectangularCard: React.FC<Props> = ({
+const RectangularCard: React.FC<RectangleCardProps> = ({
   value,
   description,
   showBar = false,

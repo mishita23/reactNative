@@ -1,18 +1,9 @@
 import React from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
 import styles from './TextInput.styles';
-interface Props {
-  label?: string;
-  value: string;
-  placeholder: string;
-  secureText?: boolean;
-  error?: string;
-  onChange: (text: string) => void;
-  onToggleSecure?: () => void;
-}
+import { TextInputProps } from './Types';
 
-const GenericTextInput: React.FC<Props> = ({
+const GenericTextInput: React.FC<TextInputProps> = ({
   label,
   value,
   placeholder,
@@ -35,9 +26,12 @@ const GenericTextInput: React.FC<Props> = ({
         {onToggleSecure && (
           <TouchableOpacity onPress={onToggleSecure}>
             <Image
-              source={secureText ? require("../../assets/icons/closeEye.png") : require("../../assets/icons/openEye.png")}
-             style={styles.eyeIcon}
-            
+              source={
+                secureText
+                  ? require('../../assets/icons/closeEye.png')
+                  : require('../../assets/icons/openEye.png')
+              }
+              style={styles.eyeIcon}
             />
           </TouchableOpacity>
         )}

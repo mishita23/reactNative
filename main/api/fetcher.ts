@@ -34,10 +34,7 @@ export async function fetcher<T>(options: FetcherOptions): Promise<T> {
   } catch (error: any) {
     console.error('API Error:', error);
 
-    Alert.alert(
-      'Error',
-      error?.message || 'Network error. Please try again.',
-    );
+    Alert.alert('Error', error?.message || 'Network error. Please try again.');
 
     throw error;
   }
