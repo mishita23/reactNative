@@ -13,6 +13,10 @@ import { bottomSheetComponentMap } from '../../components/BottomSheetContent';
 import BottomSheet from '../../components/CardDetailsModal/CardDetailsModal';
 import { WeatherDetailCard } from './Types';
 import { getWeatherDetailCards } from './CardsConfig';
+import TenDayForecast from '../../components/TenDayForecast/TenDayForecast';
+import CommonCard from '../../components/CommonCard/CommonCard';
+import { TEN_DAY_FORECAST } from '../../assets/DataConstants';
+import LocationMap from '../../components/LocationMap/LocationMap';
 
 type RouteProps = RouteProp<RootStackParamList, 'WeatherDetails'>;
 const HEADER_MAX_HEIGHT = 260;
@@ -136,6 +140,25 @@ const WeatherDetailsScreen = () => {
     />
   );
 
+  const renderTopCards = () => (
+    <View>
+      <CommonCard
+      title='10 DAYS FORECAST'
+      icon = {require("../../assets/icons/sunny.png")}
+      >
+        <TenDayForecast data={TEN_DAY_FORECAST} />
+      </CommonCard>
+      {/* {renderLocationCard()} */}
+
+      {renderAQICard()}
+    </View>
+  );
+
+  // const renderLocationCard = () => (
+  //   <CommonCard>
+  //     <LocationMap latitude={28.6139} longitude={77.209} />
+  //   </CommonCard>
+  // );
   const renderBottomSheetPicker = () => (
     <View style={styles.pickerWrapper}>
       <View style={styles.picker}>
@@ -184,7 +207,7 @@ const WeatherDetailsScreen = () => {
           numColumns={2}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 40 }}
-          ListHeaderComponent={renderAQICard()}
+          ListHeaderComponent={renderTopCards()}
           renderItem={renderSquareCard}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
