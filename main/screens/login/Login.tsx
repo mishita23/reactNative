@@ -11,11 +11,11 @@ import {
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../AppNavigator';
 import LinearGradient from 'react-native-linear-gradient';
 import { fetcher } from '../../api/fetcher';
 import { useAuth } from '../../context/AuthContext';
 import { RenderInputParams } from './Types';
+import { RootStackParamList } from '../../navigation/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -104,7 +104,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
       login(userData);
 
-      navigation.navigate('Weather');
+      navigation.navigate('HomeDrawer');
     } catch (error: any) {
       console.log('Google Sign-In Error Full:', error);
 
@@ -139,7 +139,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         },
       });
       login(response);
-      navigation.navigate('Weather');
+      navigation.navigate('HomeDrawer');
     } catch (error: any) {
       Alert.alert('Login Failed', error.message);
     } finally {

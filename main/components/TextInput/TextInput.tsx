@@ -10,18 +10,23 @@ const GenericTextInput: React.FC<TextInputProps> = ({
   secureText,
   error,
   onChange,
+  editable = true,
   onToggleSecure,
+  labelStyle,
+  inputStyle,
+  containerStyle,
 }) => {
   return (
-    <View style={styles.container}>
-      {label && <Text style={styles.label}>{label}</Text>}
+    <View style={[styles.container, containerStyle]}>
+      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
       <View style={[styles.input, error && styles.error]}>
         <TextInput
           value={value}
           placeholder={placeholder}
+          editable={editable}
           secureTextEntry={secureText}
           onChangeText={onChange}
-          style={styles.innerInput}
+          style={[styles.innerInput, inputStyle]}
         />
         {onToggleSecure && (
           <TouchableOpacity onPress={onToggleSecure}>

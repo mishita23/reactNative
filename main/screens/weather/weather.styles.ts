@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F4F7',
+    backgroundColor: '#19478aff',
     paddingHorizontal: 16,
   },
   title: {
@@ -14,7 +14,8 @@ export default StyleSheet.create({
     color: '#fff',
   },
   listContent: {
-    paddingBottom: 16,
+    // paddingBottom: 16,
+      flexGrow: 1,  
   },
   headerRow: {
     flexDirection: 'row',

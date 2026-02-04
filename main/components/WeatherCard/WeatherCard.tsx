@@ -3,8 +3,6 @@ import { View, Text, Image, Pressable, Switch } from 'react-native';
 import styles from './WeatherCard.styles';
 import {
   convertTemperature,
-  TemperatureUnit,
-  WeatherCondition,
   weatherIcons,
 } from '../../utils/temperature';
 import { WeatherCardProps } from './Types';

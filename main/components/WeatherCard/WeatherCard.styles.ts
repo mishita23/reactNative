@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   card: {
-
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,

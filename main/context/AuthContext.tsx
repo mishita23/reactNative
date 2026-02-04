@@ -7,12 +7,15 @@ type User = {
   firstName: string;
   lastName: string;
   token: string;
+  profileImage?: string | null;
+
 };
 
 type AuthContextType = {
   user: User | null;
   login: (userData: User) => void;
   logout: () => void;
+  updateProfile: (data: Partial<User>) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,8 +31,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
 
+  const updateProfile = (data: Partial<User>) => {
+    setUser(prev =>
+      prev ? { ...prev, ...data } : prev
+    );
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
